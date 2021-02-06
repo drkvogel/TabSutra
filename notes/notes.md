@@ -6,6 +6,26 @@ Initialized empty Git repository in /Users/kvogel/Projects/TabSutra/.git/
 ❯ code .
 ```
 
+tabsutra/tabgrabber:
+`chrome://inspect/#devices`
+check "Discover USB devices"
+phone has to be connected via USB
+have to allow data access
+and have to run `adb devices` (or `adb start-server`?)
+then, in chrome, click `cmd+s` to save, navigate to `~/gdrive/backup/android-tabs-backup/s7/`, `enter`
+and then it's a webpage with titles and URLs, but not linked
+it would have to:
+prompt you to
+  connect phone via USB
+  allow data access
+  check "Discover USB devices"
+run adb devices or prompt you to
+  trap errors
+grab the page
+parse the html
+turn it into links
+save somewhere
+
 
 followed this: [How can I export the list of open Chrome tabs? ](https://android.stackexchange.com/questions/56635/how-can-i-export-the-list-of-open-chrome-tabs?utm_campaign=google_rich_qa)
 
@@ -139,10 +159,137 @@ catch this... `except SessionNotCreatedException as e:`
 Updating Google Chrome      Version 81.0.4044.138 (Official Build) (64-bit)
 Google Chrome is up to date Version 83.0.4103.61 (Official Build) (64-bit)
 
-“RescueTime.app“ wants access to control “Visual Studio Code.app“. Allowing control will provide access to documents and data in “Visual Studio Code.app“, and to perform actions within that app.
-RescueTime requires scripting access to some applications for window title tracking and supported web browsers for url tracking and FocusTime website blocking.
+2020-10-09 14:34:51 doesn't work
+worked with sleep()
+
+```
+(venv) 20/10/9 14:32:04 kvogel-macbook-2018:~/Projects/TabSutra/src ±(master) 
+❯ python dev.py
+```
+```py
+Traceback (most recent call last):
+  File "dev.py", line 86, in go
+    self.parse_page()
+  File "dev.py", line 25, in parse_page
+    self.browser = webdriver.Chrome()
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/chrome/webdriver.py", line 81, in __init__
+    desired_capabilities=desired_capabilities)
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/remote/webdriver.py", line 157, in __init__
+    self.start_session(capabilities, browser_profile)
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/remote/webdriver.py", line 252, in start_session
+    response = self.execute(Command.NEW_SESSION, parameters)
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/remote/webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/remote/errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 83
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "dev.py", line 97, in <module>
+    main()
+  File "dev.py", line 94, in main
+    tabsutra.go()
+  File "dev.py", line 89, in go
+    print(e.message)
+AttributeError: 'SessionNotCreatedException' object has no attribute 'message'
+```
+
+
+2020-11-08 20:04:36
+
+`selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 83`
+
+
+`Google Chrome is up to date Version 86.0.4240.183 (Official Build) (x86_64)`
+
+[Downloads - ChromeDriver - WebDriver for Chrome ](https://chromedriver.chromium.org/downloads)
+[https://chromedriver.storage.googleapis.com/index.html?path=87.0.4280.20/ ](https://chromedriver.storage.googleapis.com/index.html?path=87.0.4280.20/)
+`https://chromedriver.storage.googleapis.com/87.0.4280.20/chromedriver_mac64.zip`
+
+```
+(venv) 20/11/8 19:59:09 kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ which chromedriver
+/usr/local/bin/chromedriver
+❯ chromedriver --version
+ChromeDriver 83.0.4103.39 (ccbf011cb2d2b19b506d844400483861342c20cd-refs/branch-heads/4103@{#416})
+
+20/11/8 20:07:42 kvogel-macbook:/usr/local/bin 
+❯ mv ~/Downloads/chromedriver ./chromedriver.87 
+❯ ./chromedriver.87 --version
+ChromeDriver 87.0.4280.20 (c99e81631faa0b2a448e658c0dbd8311fb04ddbd-refs/branch-heads/4280@{#355})
+
+(venv) 20/11/8 20:08:15 kvogel-macbook:/usr/local/bin 
+❯ ln -s chromedriver.87 chromedriver  
+❯ ll chromedriver
+-rwxr-xr-x  1 kvogel  staff    15M 14 Oct 03:01 chromedriver*
+❯ \ls -l chromedriver
+lrwxr-xr-x  1 kvogel  admin  15  8 Nov 20:09 chromedriver -> chromedriver.87
+❯ chromedriver --version
+ChromeDriver 87.0.4280.20 (c99e81631faa0b2a448e658c0dbd8311fb04ddbd-refs/branch-heads/4280@{#355})
+```
+
+[Downloads - ChromeDriver - WebDriver for Chrome ](https://chromedriver.chromium.org/downloads)
+[https://chromedriver.storage.googleapis.com/index.html?path=86.0.4240.22/ ](https://chromedriver.storage.googleapis.com/index.html?path=86.0.4240.22/)
+
+```
+(venv) 20/11/8 20:10:54 kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ ~/Downloads/chromedriver --version
+ChromeDriver 86.0.4240.22 (398b0743353ff36fb1b82468f63a3a93b4e2e89e-refs/branch-heads/4240@{#378})
+❯ mv ~/Downloads/chromedriver /usr/local/bin/chromedriver.86
+❯ cd -
+/usr/local/bin
+(venv) 20/11/8 20:17:20 kvogel-macbook:/usr/local/bin 
+❯ rm chromedriver
+remove chromedriver? y
+❯ ln -s chromedriver.86 chromedriver
+❯ cd -
+~/Projects/TabSutra
+(venv) 20/11/8 20:18:07 kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ ./run.sh
+
+❯ cd src 
+❯ ls
+dev.py*
+❯ head dev.py 
+#!/usr/bin/env python
+
+❯ ./dev.py
+self.browser = webdriver.Chrome()...
+self.browser.get("chrome://inspect/#devices")...
+time.sleep(5)...
+for elem in self.browser.find_elements_by_class_name("subrow"):...
+self.browser: <selenium.webdriv
+```
+
+Android Device (s7) shows in 
+
+(venv) 20/11/8 22:12:02 kvogel-macbook:~/Projects/TabSutra/src ±(master) ✗ 
+❯ rl ~/gdrive/backup/android-chrome-tabs/s7/2020-11-08-Chrome-DevTools-Inspect\#Devices.html 
+/Users/kvogel/gdrive/backup/android-chrome-tabs/s7/2020-11-08-Chrome-DevTools-Inspect#Devices.html
+
+### auto-install correct `chromedriver`?
+
+[selenium - SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 81](https://stackoverflow.com/questions/60296873/sessionnotcreatedexception-message-session-not-created-this-version-of-chrome)
+[python - Error message: "'chromedriver' executable needs to be available in the path"](https://stackoverflow.com/questions/29858752/error-message-chromedriver-executable-needs-to-be-available-in-the-path/52878725#52878725)
+[webdriver-manager · PyPI ](https://pypi.org/project/webdriver-manager/)
+>I solved these kinds of problems using the webdrive manager.
+>You can automatically use the correct chromedriver by using the webdrive-manager. 
+>Install the webdrive-manager: `pip install webdriver-manager`
+>Then use the driver in python as follows:
+```py
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(ChromeDriverManager().install())
+```
+
+
 
 ### name
+
+
+2020-10-09 14:33:38 not really right.
+droidtab? 
 
 sutra /ˈsuːtrə/ noun
 1. a rule or aphorism in Sanskrit literature, or a set of these on grammar or Hindu law or philosophy.
@@ -166,4 +313,11 @@ primary source सूत्र, मूललेख
 quarry शिकार, स्रोत, मारा हुआ पशु, सूत्र
 7 more translations
 
+
+
+## cruft
+
+>“RescueTime.app“ wants access to control “Visual Studio Code.app“. Allowing control will provide access to documents and data in “Visual Studio Code.app“, and to perform actions within that app.
+>RescueTime requires scripting access to some applications for window title tracking and supported web browsers for url tracking and FocusTime website blocking.
+removed `RescueTime.app`
 
