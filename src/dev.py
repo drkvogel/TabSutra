@@ -21,14 +21,22 @@ class TabSutra():
     def get_browser(self):
         self.browser = webdriver.Chrome()
 
-    def parse_page(self):
+    def parse_page_with_sleep(self):
+        # this works:
+        print("self.browser = webdriver.Chrome()...")
+        self.browser = webdriver.Chrome()
+        print("self.browser.get(\"chrome://inspect/#devices\")...")
+        self.browser.get("chrome://inspect/#devices")
+        print("time.sleep(5)...")
+        time.sleep(15) #
+        print("for elem in self.browser.find_elements_by_class_name(\"subrow\"):...")
+        print(f"self.browser: {self.browser}")
+        for elem in self.browser.find_elements_by_class_name("subrow"):
+            print(elem.text)
+
+    def parse_page_with_find(self):
         self.browser = webdriver.Chrome()
         self.browser.get("chrome://inspect/#devices")
-
-        # this works:
-        # time.sleep(5) # booyah!
-        # for elem in self.browser.find_elements_by_class_name("subrow"):
-        #     print(elem.text)
 
         # e.g. row:
         # BBC Learning English - How do I compare two things? Thai - BBC Sounds
@@ -83,7 +91,8 @@ class TabSutra():
             # self.browser = self.get_browser()
             # self.parse_page()
                 # AttributeError: 'NoneType' object has no attribute 'get'
-            self.parse_page()
+            self.parse_page_with_sleep()
+            # self.parse_page_with_find()
 
         except SessionNotCreatedException as e:
             print(e.message)
