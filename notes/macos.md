@@ -63,3 +63,13 @@ ll platforms (e.g., unlink\nand opendir), and leave all pathname manipulation to
 posix.uname_result(sysname='Darwin', nodename='kvogel-macbook.local', release='18.7.0', version='Darwin Kernel Version 18.7.0: Mon Feb 10 21:08:4
 5 PST 2020; root:xnu-4903.278.28~1/RELEASE_X86_64', machine='x86_64')
 ```
+
+```py
+# bpython version 0.18 on top of Python 3.7.3 /usr/local/anaconda3/bin/python
+>>> import platform
+>>> platform.system()
+'Darwin'
+>>> import sys
+>>> sys.platform
+'darwin'
+```
