@@ -4,6 +4,8 @@
 Python 3.7.3
 ❯ bpython
 bpython version 0.18 on top of Python 3.7.3 /usr/local/anaconda3/bin/python
+```
+```py
 >>> import os
 >>> os
 <module 'os' from '/usr/local/anaconda3/lib/python3.7/os.py'>
@@ -39,7 +41,6 @@ orts_dir_fd', 'supports_effective_ids', 'supports_fd', 'supports_follow_symlinks
 v', 'urandom', 'utime', 'wait', 'wait3', 'wait4', 'waitpid', 'walk', 'write', 'writev']
 ```
 
-https://www.thekitchn.com/rice-microwave-ice-cube-trick-23128601?utm_source=pocket-newtab-global-en-GB
 
 ```py
 >>> os.__doc__
