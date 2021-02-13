@@ -1,8 +1,7 @@
 ```
-21/02/7 17:05:32 kvogel@kvogel-macbook:~/Projects/dotfiles-private ±(master) 
+21/02/8 16:25:15 kvogel@kvogel-macbook:~/Projects/dotfiles-private ±(master) 
 ❯ python -V
 Python 3.7.3
-21/02/8 16:25:15 kvogel@kvogel-macbook:~/Projects/dotfiles-private ±(master) 
 ❯ bpython
 bpython version 0.18 on top of Python 3.7.3 /usr/local/anaconda3/bin/python
 >>> import os
@@ -72,3 +71,406 @@ posix.uname_result(sysname='Darwin', nodename='kvogel-macbook.local', release='1
 >>> sys.platform
 'darwin'
 ```
+
+2021-02-13 11:39:09
+```
+21/02/13 11:38:47 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ ./run.sh 
+Traceback (most recent call last):
+  File "src/dev.py", line 3, in <module>
+    from selenium import webdriver
+ModuleNotFoundError: No module named 'selenium'
+❯ . ./venv/bin/activate
+(venv) 21/02/13 11:39:53 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ ./run.sh             
+self.browser = webdriver.Chrome()...
+```
+OK... but:
+```
+selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 86
+Current browser version is 88.0.4324.150 with binary path /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+```
+[python - Find which version of package is installed with pip](https://stackoverflow.com/questions/10214827/find-which-version-of-package-is-installed-with-pip)
+>As of pip 1.3, there is a `pip show` command.
+```
+$ pip show Jinja2
+Name: Jinja2
+Version: 2.7.3
+Location: /path/to/virtualenv/lib/python2.7/site-packages
+Requires: markupsafe
+```
+>In older versions, `pip freeze` and `grep` should do the job nicely.
+```
+$ pip freeze | grep Jinja2
+Jinja2==2.7.3
+```
+
+```
+(venv) 21/02/13 11:40:00 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ pip show selenium
+Name: selenium
+Version: 3.141.0
+Summary: Python bindings for Selenium
+Home-page: https://github.com/SeleniumHQ/selenium/
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: Apache 2.0
+Location: /Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages
+Requires: urllib3
+Required-by: 
+
+❯ pip -V           
+pip 19.0.3 from /Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/pip (python 3.7)
+
+❯ pip install selenium
+Requirement already satisfied: selenium in ./venv/lib/python3.7/site-packages (3.141.0)
+Requirement already satisfied: urllib3 in ./venv/lib/python3.7/site-packages (from selenium) (1.25.9)
+You are using pip version 19.0.3, however version 21.0.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+
+❯ pip install --upgrade selenium
+Requirement already up-to-date: selenium in ./venv/lib/python3.7/site-packages (3.141.0)
+Requirement already satisfied, skipping upgrade: urllib3 in ./venv/lib/python3.7/site-packages (from selenium) (1.25.9)
+```
+
+selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 
+
+```
+❯ which chromedriver
+/usr/local/bin/chromedriver
+```
+[Settings – About Chrome](chrome://settings/help)
+>Google Chrome is up to date Version 88.0.4324.150 (Official Build) (x86_64)
+
+[Downloads - ChromeDriver - WebDriver for Chrome ](https://chromedriver.chromium.org/downloads)
+>Current Releases
+>If you are using Chrome version 89, please download ChromeDriver 89.0.4389.23
+>If you are using Chrome version 88, please download ChromeDriver 88.0.4324.96
+>If you are using Chrome version 87, please download ChromeDriver 87.0.4280.88
+
+Chrome version will keep changing, so will have to make sure `chromedriver` version matches, and download/prompt to download if not, or...
+use a fixed version of chromium (headless?)
+
+
+### check existence of url
+
+```
+21/02/13 12:04:53 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ wget --spider https://chromedriver.storage.googleapis.com/index.html\?path\=88.0.4324.96/
+dyld: Library not loaded: /usr/local/opt/openssl/lib/libssl.1.0.0.dylib
+  Referenced from: /usr/local/bin/wget
+  Reason: image not found
+[1]    24582 abort      wget --spider
+```
+
+```
+21/02/13 12:04:59 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ brew install wget
+==> Downloading https://homebrew.bintray.com/bottles/wget-1.20.3_2.mojave.bottle.tar.gz
+Already downloaded: /Users/kvogel/Library/Caches/Homebrew/downloads/08c4734a2d875d0205367bd2f0330c91aa7a3d92b33f9add04f39250149419ef--wget-1.20.3_2.mojave.bottle.tar.gz
+Error: wget 1.19.5 is already installed
+To upgrade to 1.20.3_2, run `brew upgrade wget`.
+==> `brew cleanup` has not been run in 30 days, running now...
+Removing: /Users/kvogel/Library/Caches/Homebrew/adns--1.6.0.mojave.bottle.tar.gz... (272.6KB)
+...
+```
+
+```
+21/02/13 12:07:58 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ brew upgrade wget
+==> Upgrading 1 outdated package:
+wget 1.19.5 -> 1.20.3_2
+==> Upgrading wget 1.19.5 -> 1.20.3_2
+...
+❯ wget
+wget: missing URL
+```
+OK...
+```
+21/02/13 12:10:54 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ wget --spider https://chromedriver.storage.googleapis.com/index.html\?path\=88.0.4324.96/
+Spider mode enabled. Check if remote file exists.
+--2021-02-13 12:11:16--  https://chromedriver.storage.googleapis.com/index.html?path=88.0.4324.96/
+Resolving chromedriver.storage.googleapis.com (chromedriver.storage.googleapis.com)... 2a00:1450:4009:819::2010, 172.217.169.80
+Connecting to chromedriver.storage.googleapis.com (chromedriver.storage.googleapis.com)|2a00:1450:4009:819::2010|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 10574 (10K) [text/html]
+Remote file exists and could contain further links,
+but recursion is disabled -- not retrieving.
+```
+
+### curl
+
+```
+21/02/13 12:14:06 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ curl -o /dev/null --silent --head --write-out '%{http_code}\n' asdfas
+000
+❯ curl -o /dev/null --silent --head --write-out '%{http_code}\n' https://google.com
+301
+❯ curl -o /dev/null --silent --head --write-out '%{http_code}\n' https://www.google.com
+200
+❯ curl -o /dev/null --silent --head --write-out '%{http_code}\n' https://chromedriver.storage.googleapis.com/index.html\?path\=88.0.4324.96/
+200
+❯ curl -o /dev/null --silent --head --write-out '%{http_code}\n' https://chromedriver.storage.googleapis.com/index.html\?path\=88.0.4324.96xxx/
+200
+```
+?? 
+
+[https://chromedriver.storage.googleapis.com/index.html/?path%5C=88.0.4324.96xxx/ ](https://chromedriver.storage.googleapis.com/index.html/?path%5C=88.0.4324.96xxx/)
+```xml
+<Error>
+<Code>NoSuchKey</Code>
+<Message>The specified key does not exist.</Message>
+<Details>No such object: chromedriver/index.html/</Details>
+</Error>
+```
+It is a directory listing. The real path is `https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64.zip`
+```
+(venv) 21/02/13 12:19:52 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ wget https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64.zip
+--2021-02-13 13:10:28--  https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64.zip
+Resolving chromedriver.storage.googleapis.com (chromedriver.storage.googleapis.com)... 2a00:1450:4009:819::2010, 142.250.178.16
+Connecting to chromedriver.storage.googleapis.com (chromedriver.storage.googleapis.com)|2a00:1450:4009:819::2010|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 8137203 (7.8M) [application/zip]
+Saving to: ‘chromedriver_mac64.zip’
+chromedriver_mac64.zip               100%[===================================================================>]   7.76M  8.48MB/s    in 0.2021-02-13 13:10:29 (8.48 MB/s) - ‘chromedriver_mac64.zip’ saved [8137203/8137203]
+
+❯ unzip chromedriver_mac64.zip 
+  inflating: chromedriver    
+
+(venv) 21/02/13 13:11:43 kvogel@kvogel-macbook:/usr/local/bin 
+❯ chromedriver -v
+ChromeDriver 86.0.4240.22 (398b0743353ff36fb1b82468f63a3a93b4e2e89e-refs/branch-heads/4240@{#378})
+❯ sudo mv chromedriver chromedriver-86
+❯ sudo mv ~/p/TabSutra/chromedriver .
+```
+
+[selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version](https://www.google.com/search?q=selenium.common.exceptions.SessionNotCreatedException%3A+Message%3A+session+not+created%3A+This+version+of+ChromeDriver+only+supports+Chrome+version&ie=UTF-8)
+
+[how to keep chromedriver in sync with chrome version](https://www.google.com/search?q=how+to+keep+chromedriver+in+sync+with+chrome+version&ie=UTF-8)
+[Keep Chrome WebDriver version in sync with Chrome? : selenium ](https://www.reddit.com/r/selenium/comments/bolseh/keep_chrome_webdriver_version_in_sync_with_chrome/)
+[How to work with a specific version of ChromeDriver while Chrome Browser gets updated automatically through Python selenium](https://stackoverflow.com/questions/50692358/how-to-work-with-a-specific-version-of-chromedriver-while-chrome-browser-gets-up)
+[webdriver - ChromeDriver and Chrome Browser out of sync](https://stackoverflow.com/questions/59337189/chromedriver-and-chrome-browser-out-of-sync)
+
+
+s7 always allow
+how to check if not allowed? prompt to allow
+
+two cables weren't working for data transfer, put knot in them
+
+ok, `./run.sh`, connects, sleep(5), then prints to stdout...
+should save to file?
+and is not in TabsOutliner format, or better, markdown link format
+ends with:
+```py
+Traceback (most recent call last):
+  File "src/dev.py", line 106, in <module>
+    main()
+  File "src/dev.py", line 103, in main
+    tabsutra.go()
+  File "src/dev.py", line 94, in go
+    self.parse_page_with_sleep()
+  File "src/dev.py", line 35, in parse_page_with_sleep
+    print(elem.text)
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/remote/webelement.py", line 76, in text
+    return self._execute(Command.GET_ELEMENT_TEXT)['value']
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/remote/webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/remote/webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "/Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/selenium/webdriver/remote/errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.StaleElementReferenceException: Message: stale element reference: element is not attached to the page document
+  (Session info: chrome=88.0.4324.150)
+```
+
+```
+(venv) 21/02/13 13:22:15 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ ./run.sh > s7-tabs-210213T1322.txt
+...
+(venv) 21/02/13 13:24:59 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+❯ ll s7-tabs-210213T1322.txt 
+-rw-r--r--  1 kvogel  staff   602K 13 Feb 13:24 s7-tabs-210213T1322.txt
+```
+
+uploaded to gdrive via web
+[s7-tabs-210213T1322.txt](https://drive.google.com/file/d/13RG6zgZR0R5_tlcaAC1OgyOVlLy9jpMk/view?usp=sharing)
+
+new chrome instance doesn't quit afterwards
+
+### google drive cli
+
+[upload to google drive via command line](https://www.google.com/search?q=upload+to+google+drive+via+command+line&ie=UTF-8)
+[How to upload a file to Google Drive from the command line -OliverMarshall.net ](https://olivermarshall.net/how-to-upload-a-file-to-google-drive-from-the-command-line/)
+[Uploading files to Google Drive directly from the Terminal (using Curl)  by Daniel Ellis  Towards Data Science ](https://towardsdatascience.com/uploading-files-to-google-drive-directly-from-the-terminal-using-curl-2b89db28bb06)
+[How to Upload a File to Google Drive from the Terminal/Command Line ~ ServerKaKa ](https://www.serverkaka.com/2018/05/upload-file-to-google-drive-from-the-command-line-terminal.html)
+[windows - Is there a command line utility to script uploads to Google Drive and share items? - Super User ](https://superuser.com/questions/730774/is-there-a-command-line-utility-to-script-uploads-to-google-drive-and-share-item)
+[drive-cli · PyPI ](https://pypi.org/project/drive-cli/)
+[Upload to Google Drive without any UI?](https://stackoverflow.com/questions/12446535/upload-to-google-drive-without-any-ui)
+[Google Drive API    Google Developers ](https://developers.google.com/drive/)
+[How to upload a file to Google Drive from the command line -OliverMarshall.net ](http://olivermarshall.net/how-to-upload-a-file-to-google-drive-from-the-command-line/)
+
+[prasmussen/gdrive: Google Drive CLI Client ](https://github.com/prasmussen/gdrive)
+```
+21/02/13 12:21:40 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ which gdrive
+gdrive not found
+21/02/13 13:31:18 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ brew install gdrive
+==> Downloading https://homebrew.bintray.com/bottles/gdrive-2.1.0.mojave.bottle.3.tar.gz
+==> Downloading from https://d29vzk4ow07wi7.cloudfront.net/e26ef4bec660913f42aa735c28f58393912d2d0293bf98a351fa2b27a1baee01?response-content-disposition=attachment%3Bfilename%3D%22gdrive-2.1.0.mojave.bott
+######################################################################## 100.0%
+==> Pouring gdrive-2.1.0.mojave.bottle.3.tar.gz
+🍺  /usr/local/Cellar/gdrive/2.1.0: 4 files, 8.5MB
+==> `brew cleanup` has not been run in 30 days, running now...
+Error: Permission denied @ apply2files - /usr/local/lib/prey/versions/1.9.9/.DS_Store
+
+21/02/13 13:32:37 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ gdrive list
+Authentication needed
+Go to the following url in your browser:
+https://accounts.google.com/o/oauth2/auth?access_type=offline&client_id=36...oe99eg.apps.googleusercontent.com&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&state=state
+
+Enter verification code:
+```
+[Sign in – Google accounts ](https://accounts.google.com/signin/oauth/danger?authuser=0&part=AJi8...qMo&as=S-603...75&rapt=AEj...#)
+>This app is blocked
+>This app tried to access sensitive info in your Google Account. To keep your account safe, Google blocked this access.
+
+
+```
+21/02/13 13:35:31 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ pip install drive-cli
+```
+```
+21/02/13 13:35:52 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ drive ls
+/usr/local/anaconda3/lib/python3.7/site-packages/oauth2client/_helpers.py:255: UserWarning: Cannot access /usr/local/anaconda3/lib/python3.7/site-packages/drive_cli/token.json: No such file or directory
+  warnings.warn(_MISSING_FILE_MESSAGE.format(filename))
+
+Your browser has been opened to visit:
+
+    https://accounts.google.com/o/oauth2/auth?client_id=94718881080-76dmod3u5a3ot1vufq29u04kdr5igmuc.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&response_type=code
+
+If your browser is on a different machine then exit and re-run this
+application with the command-line parameter
+
+  --noauth_local_webserver
+
+^C
+Aborted!
+```
+
+>This app is blocked
+>This app tried to access sensitive info in your Google Account. To keep your account safe, Google blocked this access.
+
+[gdrive This app is blocked This app tried to access sensitive info in your Google Account. To keep your account safe, Google blocked this access.](https://www.google.com/search?q=gdrive+This+app+is+blocked+This+app+tried+to+access+sensitive+info+in+your+Google+Account.+To+keep+your+account+safe%2C+Google+blocked+this+access)
+[Allow less secure apps to access your Gmail account  DevAnswers.co ](https://devanswers.co/allow-less-secure-apps-access-gmail-account/)
+[Less secure apps & your Google Account - Google Account Help ](https://support.google.com/accounts/answer/6010255?hl=en)
+[Sign in with App Passwords - Google Account Help ](https://support.google.com/accounts/answer/185833)
+
+
+[node.js - How to use Selenium chromedriver without being forced to update?](https://stackoverflow.com/questions/40288651/how-to-use-selenium-chromedriver-without-being-forced-to-update)
+>The Selenium Documentation has information on how to customize the chromedriver options. I have downloaded a version of Chromium and used this logic to hook it up [for node/javascript]:
+```js
+var chrome = require("selenium-webdriver/chrome");
+var service = new chrome.ServiceBuilder().build();
+
+var options = new chrome.Options();
+options.setChromeBinaryPath("PATH/TO/MY/CHROMIUM");
+
+var driver = new chrome.Driver(options, service);
+```
+redo in node/js?
+  make chrome extn? or vscode extn?
+  use specific version of chromium rather than current version of chrome which keeps changing?
+
+
+## other
+
+linkify: displays "Linkified!" even if it didn't do anything, e.g. for `Settings – About Chrome (chrome://settings/help)`
+
+```
+You are using pip version 19.0.3, however version 21.0.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+```
+
+why am I so obsessed with wokism/leftism? because I am worried about it, have seen it a lot in action, possibly lost a job due to it, worry about other people becoming victim to it, worry about the way the world is going - it's one of the biggest things I want to fix!
+and I don't want to live in a world of nonsense - it's not how I've been brought up, it's not how most of the people that I know - the ones that I like, and hopefully like me, think
+the world is being bullied into a way of thinking decided by a minority, and being "called out" (silenced, destroyed) if they disagree or even voice their concern - this is not the kind of world I want to live in - it's sinister (sinister, funnily enough, meaning "left")
+>"Sinister" (Latin for "left") 
+
+dave clarke 313
+
+I feel a lot better today, despite having slept for a long time (11pm-8.30am?) without cpap...
+took probies (yr) yesterday...
+
+pc vs mac - cmdline binaries (installed via homebrew?) break with `dyld: Library not loaded` and have to be reinstalled
+apt > homebrew
+
+melphinstone cv: [CV - 10/02/2021](https://docs.google.com/document/d/1LuLTAQ5VMMTzC4u7AqZjUmhRaiSkGB-yBj7Zke2xaCo/edit)
+
+gm...
+
+[Bash get exit code of command on a Linux / Unix - nixCraft ](https://www.cyberciti.biz/faq/bash-get-exit-code-of-command/)
+`status=$?`
+
+[get exit code of wget spider](https://www.google.com/search?q=get+exit+code+of+wget+spider&ie=UTF-8)
+[get http status of wget spider](https://www.google.com/search?q=get+http+status+of+wget+spider&ie=UTF-8)
+[bash - Script to get the HTTP status code of a list of urls?](https://stackoverflow.com/questions/6136022/script-to-get-the-http-status-code-of-a-list-of-urls)
+
+```
+(venv) 21/02/13 15:23:14 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
+❯ git config --global --list | pbcopy
+```
+```conf
+user.name=Chris Bird
+user.email=chrisjbird@gmail.com
+diff.tool=vimdiff
+difftool.prompt=false
+merge.tool=meld
+mergetool.prompt=false
+mergetool.meld.trustexitcode=true
+mergetool.meld.cmd=open -W -a Meld --args --auto-merge "$PWD/$LOCAL" "$PWD/$BASE" "$PWD/$REMOTE" --output="$PWD/$MERGED"
+core.excludesfile=/Users/kvogel/.gitignore
+difftool.sourcetree.cmd=opendiff "$LOCAL" "$REMOTE"
+difftool.sourcetree.path=
+mergetool.sourcetree.cmd=/Users/kvogel/Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh "$LOCAL" "$REMOTE" -ancestor "$BASE" -merge "$MERGED"
+mergetool.sourcetree.trustexitcode=true
+alias.lds=log --pretty=format:%C(yellow)%h\ %ad%Cred%d\ %Creset%s%Cblue\ [%cn] --decorate --date=short
+alias.lsd=log --pretty=format:%C(yellow)%h\ %ci%Cred%d\ %Creset%s%Cblue\ [%cn] --decorate --date=short
+alias.co=checkout
+alias.cot=!f() { git branch | grep $1 | xargs -I {} git co {}; }; f
+alias.b=branch
+alias.pu=push -u origin HEAD
+alias.ci=commit
+alias.st=status
+alias.ap=add --patch
+alias.rename=branch -m
+alias.rn=rename
+alias.clean-merged=! git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
+alias.age=for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+core.editor=vim
+core.autocrlf=false
+push.default=simple
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+pager.branch=false
+commit.template=/Users/kvogel/.stCommitMsg
+pull.ff=only
+```
+
+[git config pull.ff](https://www.google.com/search?q=git+config+pull.ff&ie=UTF-8)
+[How to deal with this git warning? "Pulling without specifying how to reconcile divergent branches is discouraged"](https://stackoverflow.com/questions/62653114/how-to-deal-with-this-git-warning-pulling-without-specifying-how-to-reconcile)
+[Why You Should Use git pull --ff-only  sffc's Tech Blog ](https://blog.sffc.xyz/post/185195398930/why-you-should-use-git-pull-ff-only-git-is-a)
+[How to configure "git pull --ff-only" and "git merge --no-ff"](https://stackoverflow.com/questions/35296680/how-to-configure-git-pull-ff-only-and-git-merge-no-ff)
+
+
+```
+(venv) 21/02/13 15:24:07 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
+❯ git config --global pull.ff true 
+```
+learn-git.git
