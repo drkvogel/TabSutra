@@ -4,6 +4,8 @@
 Python 3.7.3
 ❯ bpython
 bpython version 0.18 on top of Python 3.7.3 /usr/local/anaconda3/bin/python
+```
+```py
 >>> import os
 >>> os
 <module 'os' from '/usr/local/anaconda3/lib/python3.7/os.py'>
@@ -39,7 +41,6 @@ orts_dir_fd', 'supports_effective_ids', 'supports_fd', 'supports_follow_symlinks
 v', 'urandom', 'utime', 'wait', 'wait3', 'wait4', 'waitpid', 'walk', 'write', 'writev']
 ```
 
-https://www.thekitchn.com/rice-microwave-ice-cube-trick-23128601?utm_source=pocket-newtab-global-en-GB
 
 ```py
 >>> os.__doc__
@@ -387,32 +388,6 @@ redo in node/js?
   use specific version of chromium rather than current version of chrome which keeps changing?
 
 
-## other
-
-linkify: displays "Linkified!" even if it didn't do anything, e.g. for `Settings – About Chrome (chrome://settings/help)`
-
-```
-You are using pip version 19.0.3, however version 21.0.1 is available.
-You should consider upgrading via the 'pip install --upgrade pip' command.
-```
-
-why am I so obsessed with wokism/leftism? because I am worried about it, have seen it a lot in action, possibly lost a job due to it, worry about other people becoming victim to it, worry about the way the world is going - it's one of the biggest things I want to fix!
-and I don't want to live in a world of nonsense - it's not how I've been brought up, it's not how most of the people that I know - the ones that I like, and hopefully like me, think
-the world is being bullied into a way of thinking decided by a minority, and being "called out" (silenced, destroyed) if they disagree or even voice their concern - this is not the kind of world I want to live in - it's sinister (sinister, funnily enough, meaning "left")
->"Sinister" (Latin for "left") 
-
-dave clarke 313
-
-I feel a lot better today, despite having slept for a long time (11pm-8.30am?) without cpap...
-took probies (yr) yesterday...
-
-pc vs mac - cmdline binaries (installed via homebrew?) break with `dyld: Library not loaded` and have to be reinstalled
-apt > homebrew
-
-melphinstone cv: [CV - 10/02/2021](https://docs.google.com/document/d/1LuLTAQ5VMMTzC4u7AqZjUmhRaiSkGB-yBj7Zke2xaCo/edit)
-
-gm...
-
 [Bash get exit code of command on a Linux / Unix - nixCraft ](https://www.cyberciti.biz/faq/bash-get-exit-code-of-command/)
 `status=$?`
 
@@ -421,56 +396,60 @@ gm...
 [bash - Script to get the HTTP status code of a list of urls?](https://stackoverflow.com/questions/6136022/script-to-get-the-http-status-code-of-a-list-of-urls)
 
 ```
-(venv) 21/02/13 15:23:14 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
-❯ git config --global --list | pbcopy
-```
-```conf
-user.name=Chris Bird
-user.email=chrisjbird@gmail.com
-diff.tool=vimdiff
-difftool.prompt=false
-merge.tool=meld
-mergetool.prompt=false
-mergetool.meld.trustexitcode=true
-mergetool.meld.cmd=open -W -a Meld --args --auto-merge "$PWD/$LOCAL" "$PWD/$BASE" "$PWD/$REMOTE" --output="$PWD/$MERGED"
-core.excludesfile=/Users/kvogel/.gitignore
-difftool.sourcetree.cmd=opendiff "$LOCAL" "$REMOTE"
-difftool.sourcetree.path=
-mergetool.sourcetree.cmd=/Users/kvogel/Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh "$LOCAL" "$REMOTE" -ancestor "$BASE" -merge "$MERGED"
-mergetool.sourcetree.trustexitcode=true
-alias.lds=log --pretty=format:%C(yellow)%h\ %ad%Cred%d\ %Creset%s%Cblue\ [%cn] --decorate --date=short
-alias.lsd=log --pretty=format:%C(yellow)%h\ %ci%Cred%d\ %Creset%s%Cblue\ [%cn] --decorate --date=short
-alias.co=checkout
-alias.cot=!f() { git branch | grep $1 | xargs -I {} git co {}; }; f
-alias.b=branch
-alias.pu=push -u origin HEAD
-alias.ci=commit
-alias.st=status
-alias.ap=add --patch
-alias.rename=branch -m
-alias.rn=rename
-alias.clean-merged=! git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
-alias.age=for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
-core.editor=vim
-core.autocrlf=false
-push.default=simple
-filter.lfs.clean=git-lfs clean -- %f
-filter.lfs.smudge=git-lfs smudge -- %f
-filter.lfs.process=git-lfs filter-process
-filter.lfs.required=true
-pager.branch=false
-commit.template=/Users/kvogel/.stCommitMsg
-pull.ff=only
-```
-
-[git config pull.ff](https://www.google.com/search?q=git+config+pull.ff&ie=UTF-8)
-[How to deal with this git warning? "Pulling without specifying how to reconcile divergent branches is discouraged"](https://stackoverflow.com/questions/62653114/how-to-deal-with-this-git-warning-pulling-without-specifying-how-to-reconcile)
-[Why You Should Use git pull --ff-only  sffc's Tech Blog ](https://blog.sffc.xyz/post/185195398930/why-you-should-use-git-pull-ff-only-git-is-a)
-[How to configure "git pull --ff-only" and "git merge --no-ff"](https://stackoverflow.com/questions/35296680/how-to-configure-git-pull-ff-only-and-git-merge-no-ff)
-
-
-```
 (venv) 21/02/13 15:24:07 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
 ❯ git config --global pull.ff true 
 ```
-learn-git.git
+
+```
+(venv) 21/02/13 16:33:15 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
+❯ /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --headless google.com
+[0213/163325.153874:ERROR:xattr.cc(63)] setxattr org.chromium.crashpad.database.initialized on file /var/folders/jt/0c4t1hnn613c8_7q19pgmrhw0000gn/T/: Operation not permitted (1)
+[0213/163325.157029:ERROR:file_io.cc(90)] ReadExactly: expected 8, observed 0
+[0213/163325.159692:ERROR:xattr.cc(63)] setxattr org.chromium.crashpad.database.initialized on file /var/folders/jt/0c4t1hnn613c8_7q19pgmrhw0000gn/T/: Operation not permitted (1)
+[0213/163325.572173:WARNING:ipc_message_attachment_set.cc(49)] MessageAttachmentSet destroyed with unconsumed attachments: 0/1
+[0213/163325.572298:WARNING:ipc_message_attachment_set.cc(49)] MessageAttachmentSet destroyed with unconsumed attachments: 0/1
+```
+
+Chrome "--headless" ERROR:xattr  setxattr org.chromium.crashpad.database.initialized on file Operation not permitted 
+[Chrome "--headless" ERROR:xattr setxattr org.chromium.crashpad.database.initialized on file Operation not permitted](https://www.google.com/search?q=Chrome+%22--headless%22+ERROR%3Axattr+setxattr+org.chromium.crashpad.database.initialized+on+file+Operation+not+permitted&ie=UTF-8)
+[Chrome --headless crashes : MacOS ](https://www.reddit.com/r/MacOS/comments/8zxoxs/chrome_headless_crashes/)
+[permissions - Chrome crashpad crashes on xattr - Super User ](https://superuser.com/questions/1292863/chrome-crashpad-crashes-on-xattr)
+
+add ` --crash-dumps-dir=/tmp`
+```
+(venv) 21/02/13 16:33:25 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
+❯ /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --headless --crash-dumps-dir=/tmp google.com 
+[0213/163519.681147:ERROR:command_buffer_proxy_impl.cc(122)] ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer.
+```
+
+ERROR:command_buffer_proxy_impl.cc ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer
+
+[running Chrome in headless mode](https://stackoverflow.com/questions/49103799/running-chrome-in-headless-mode)
+
+[ERROR:command_buffer_proxy_impl.cc ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer](https://www.google.com/search?q=ERROR%3Acommand_buffer_proxy_impl.cc+ContextResult%3A%3AkTransientFailure%3A+Failed+to+send+GpuChannelMsg_CreateCommandBuffer&ie=UTF-8)
+[Headless Chrome Terminates](https://stackoverflow.com/questions/55992970/headless-chrome-terminates)
+[List of Chromium Command Line Switches « Peter Beverloo ](https://peter.sh/experiments/chromium-command-line-switches/)
+
+
+[nodejs selenium vs](https://www.google.com/search?q=nodejs+selenium+vs)
+[node.js - What is the difference between mocha and Selenium?](https://stackoverflow.com/questions/22894253/what-is-the-difference-between-mocha-and-selenium)
+[javascript - Alternatives to Selenium Webdriver](https://stackoverflow.com/questions/29671060/alternatives-to-selenium-webdriver)
+
+[PhantomJS Is Dead, Use Chrome Headless in Continuous Integration - Semaphore ](https://semaphoreci.com/blog/2018/03/27/phantomjs-is-dead-use-chrome-headless-in-continuous-integration.html)
+[Replacing PhantomJS with headless Chrome  BigBinary Blog ](https://bigbinary.com/blog/replacing-phantomjs-with-headless-chrome)
+[Replacing PhantomJS with Chrome — headless  by Polo Ornelas  Medium ](https://medium.com/@polographer/replacing-phantomjs-with-chrome-headless-88ae3d0657bf)
+[Getting Started with Headless Chrome    Web    Google Developers ](https://developers.google.com/web/updates/2017/04/headless-chrome)
+[Web-scraping JavaScript page with Python](https://stackoverflow.com/questions/8049520/web-scraping-javascript-page-with-python)
+[Seleniumworks: Headless Browser Testing using PhantomJS - GhostDriver  WebDriver ](http://seleniumworks.blogspot.com/2013/03/headless-browser-testing-using.html)
+    [Inspect with Chrome Developer Tools](chrome://inspect/#pages)
+[chrome command location mac](https://www.google.com/search?q=chrome+command+location+mac&ie=UTF-8)
+[chrome headless](https://www.google.com/search?q=chrome+headless&ie=UTF-8)
+[How to run a headless Chrome browser in Selenium WebDriver.  by Anton Smirnov  ITNEXT ](https://itnext.io/how-to-run-a-headless-chrome-browser-in-selenium-webdriver-c5521bc12bf0)
+[python - Running Selenium with Headless Chrome Webdriver](https://stackoverflow.com/questions/53657215/running-selenium-with-headless-chrome-webdriver)
+[chrome headless nodejs](https://www.google.com/search?q=chrome+headless+nodejs&ie=UTF-8)
+[Getting started with Puppeteer & Headless chrome in NodeJs  by Aditya Joshi  Medium ](https://adityaajoshi.medium.com/getting-started-with-puppeteer-headless-chrome-in-nodejs-4826595e3366)
+[Headless Browser Examples with Puppeteer  Toptal ](https://www.toptal.com/puppeteer/headless-browser-puppeteer-tutorial)
+[Don't Fear the Repo: Enhanced Git Flow Explained  Toptal ](https://www.toptal.com/gitflow/enhanced-git-flow-explained)
+[node.js - Headless automation with Nodejs Selenium Webdriver](https://stackoverflow.com/questions/44197253/headless-automation-with-nodejs-selenium-webdriver)
+[Install Chrome Headless using NPM](https://stackoverflow.com/questions/44516816/install-chrome-headless-using-npm)
+
