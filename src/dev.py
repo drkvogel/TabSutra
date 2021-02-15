@@ -92,8 +92,7 @@ class TabSutra():
             # chromedriver current path:
             # /home/kvogel/.local/bin/chromedriver
 
-            this_file_path = os.path.abspath(__file__)
-                # os.path.dirname(os.path.abspath(__file__))
+            this_file_path = os.path.abspath(__file__) # os.path.dirname(os.path.abspath(__file__))
             this_file_mtime = os.path.getmtime(this_file_path)
 
             # print(f'this_file_mtime: {this_file_mtime}') #  1612816979.1176763
