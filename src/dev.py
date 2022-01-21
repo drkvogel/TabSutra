@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import SessionNotCreatedException, StaleElementReferenceException
-# from selenium.common import SessionNotCreatedException, StaleElementReferenceException
 import time
 import os, platform, sys, time
 
-# def get_page():
-#     chrome = webdriver.Chrome()
-#     chrome.get("chrome://inspect/#devices")
 
 # TODO check if adb installed
 # TODO run adb devices, check if device
@@ -17,28 +14,65 @@ import os, platform, sys, time
 # TODO make sure phone data is allowed
 
 class TabSutra():
+    CHROME_INSPECT_URL = 'chrome://inspect/#devices'
+    SLEEP_SECONDS = 3
+
+    # jls_extract_var = 'chrome://inspect/#devices'
+    # CHROME_INSPECT_URL = jls_extract_var
+    # ??? Java linting my Python file?? : vscode (https://www.reddit.com/r/vscode/comments/n05vl9/java_linting_my_python_file/)
+
     def __init__(self):
         pass
 
     def get_browser(self):
-        self.browser = webdriver.Chrome()
+        self.driver = webdriver.Chrome()
 
     def parse_page_with_sleep(self):
         # this works:
-        print("self.browser = webdriver.Chrome()...")
-        self.browser = webdriver.Chrome()
-        print("self.browser.get(\"chrome://inspect/#devices\")...")
-        self.browser.get("chrome://inspect/#devices")
-        print("time.sleep(5)...")
-        time.sleep(15) #
-        print("for elem in self.browser.find_elements_by_class_name(\"subrow\"):...")
-        print(f"self.browser: {self.browser}")
-        for elem in self.browser.find_elements_by_class_name("subrow"):
-            print(elem.text)
+        # print("self.browser = webdriver.Chrome()...")
+        options = Options()
+        # options.add_argument("--headless") # len(subrows): 0 No rows fetched. Quitting.
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument('--lang=en_GB')
+        self.driver = webdriver.Chrome(options=options)
+        print(f'self.browser.get({self.CHROME_INSPECT_URL})...')
+        self.driver.get(self.CHROME_INSPECT_URL)
+        print(f'sleeping for {self.SLEEP_SECONDS} seconds...')
+        print(f'TODO should poll to see if browser ready, not sleep')
+        time.sleep(self.SLEEP_SECONDS) #
+        # print('for elem in self.browser.find_elements_by_class_name(\"subrow\"):...')
+        # print(f'self.browser: {self.browser}')
+        # subrows = self.driver.find_elements_by_class_name('subrow') # DeprecationWarning: find_elements_by_* commands are deprecated. Please use find_elements() instead
+        subrows = self.driver.find_elements(By.CLASS_NAME, 'subrow')
+        print(f'len(subrows): {len(subrows)}')
+        if len(subrows) <= 1:
+            print('No rows fetched. Quitting.')
+            sys.exit(0)
+
+        # for elem in self.browser.find_elements_by_class_name('subrow'):
+        try:
+            with open('tabs.md', 'w') as out_file:
+                for elem in subrows:
+                    print(elem.text)
+                    lines = elem.text.split('\n')
+                    if len(lines) > 1:
+                        title = lines[0]
+                        url = lines[1]
+                        out_line = f'[{title}]({url})\n'
+                    else:
+                        out_line = f'{elem.text}\n'
+                    out_file.write(out_line)
+        except StaleElementReferenceException:
+            # always get: "selenium.common.exceptions.StaleElementReferenceException: Message: stale element reference: element is not attached to the page document"
+            # at the end, even though the list of tabs is complete
+            print('Got StaleElementReferenceException')
+
 
     def parse_page_with_find(self):
-        self.browser = webdriver.Chrome()
-        self.browser.get("chrome://inspect/#devices")
+        self.driver = webdriver.Chrome()
+        self.driver.get(self.CHROME_INSPECT_URL)
 
         # e.g. row:
         # BBC Learning English - How do I compare two things? Thai - BBC Sounds
@@ -56,7 +90,7 @@ class TabSutra():
             # else:
             #     break
             try:
-                rows = self.browser.find_elements_by_class_name("subrow")
+                rows = self.driver.find_elements_by_class_name("subrow")
                 print('Got rows')
                 print('Waiting...', end='')
                 time.sleep(2) # wait a bit...
@@ -79,48 +113,34 @@ class TabSutra():
         # for n in range(HEAD_ROWS):
         #     print(f'{n}: {rows[0].text}')
 
-        self.browser.close()
+        self.driver.close()
 
         # selenium.common.exceptions.StaleElementReferenceException: Message: stale element reference: element is not attached to the page document
         #   (Session info: chrome=83.0.4103.61)
 
+    # def get_page():
+    #     chrome = webdriver.Chrome()
+    #     chrome.get("chrome://inspect/#devices")
+
+
     def go(self):
         try:
-            # C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
-            # chrome.exe current path:
-            # '/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe'
-            # chromedriver current path:
-            # /home/kvogel/.local/bin/chromedriver
-
             this_file_path = os.path.abspath(__file__) # os.path.dirname(os.path.abspath(__file__))
             this_file_mtime = os.path.getmtime(this_file_path)
-
-            # print(f'this_file_mtime: {this_file_mtime}') #  1612816979.1176763
-            # time_now = time.time()
-            # print(f'time_now {time_now}') # 1612816983.5057838
-            # time_now = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time()))
-            # print(f'time_now {time_now}') # 2021-02-08
-            # print('boo asfasdfasdfasd xxx!')
-
             this_file_mtime_hr = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(this_file_mtime))
-            print(f'this is {this_file_path}, modified at {this_file_mtime_hr}')
-                # this is /home/kvogel/projects/tabsutra/src/dev.py, modified at 2021-02-08 20:44:07
-
-            print(f'go(): Platform: {self.get_platform()}')
+            print(f'This is {this_file_path}, modified at {this_file_mtime_hr}')
+            print(f'Platform: {self.get_platform()}')
             print()
-            sys.exit(0)
 
             options = Options()
-
-            # if self.get_platform() == 
-            options.binary_location = "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe"
-            driver = webdriver.Chrome(options=options, executable_path="/home/kvogel/.local/bin/chromedriver", )
+            options.add_argument("--headless")
+            #, executable_path="/home/kvogel/.local/bin/chromedriver", )
             # otherwise on WSL get: `selenium.common.exceptions.WebDriverException: Message: unknown error: cannot find Chrome binary`
             # even if `chrome.exe` is in PATH
-
             # options.binary_location = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
             # driver = webdriver.Chrome(chrome_options=options, executable_path="C:/Utility/BrowserDrivers/chromedriver.exe", )
             # driver.get('http://google.com/')
+            driver = webdriver.Chrome(options=options)
 
             # page = get_page()
             # self.browser = self.get_browser()
@@ -134,30 +154,21 @@ class TabSutra():
             return
 
     def get_platform(self):
-        # print(f'platform.system(): {platform.system()}')
+        # print(f'platform.system(): {platform.system()}, os.uname().release: {os.uname().release}')
         if platform.system() == 'Linux':
-        # if sys.platform == 'linux':
             # Linux or WSL
-            # uname = os.uname()
-            # if uname.sysname == 'Linux':
             if 'microsoft-standard' in os.uname().release:
                 return 'wsl'
             else:
                 return 'linux'
-        # elif uname.sysname == 'Darwin':
-        # elif sys.platform == 'darwin':
         elif platform.system() == 'Darwin':
             return 'macos'
-        # elif uname.sysname
         elif platform.system() == 'Windows':
             return 'windows'
-            # print(f'uname: {uname.')
 
 
 def main():
     tabsutra = TabSutra()
-    print(f'main(): Platform: {tabsutra.get_platform()}')
-    # sys.exit(0)
     tabsutra.go()
 
 if __name__ == "__main__":
