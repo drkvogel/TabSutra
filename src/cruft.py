@@ -26,3 +26,7 @@
         # if sys.platform == 'linux':
             # uname = os.uname()
             # if uname.sysname == 'Linux':
+
+        # this works:
+        # print("self.browser = webdriver.Chrome()...")
+

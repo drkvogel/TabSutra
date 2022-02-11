@@ -7,11 +7,16 @@ from selenium.common.exceptions import SessionNotCreatedException, StaleElementR
 import time
 import os, platform, sys, time
 
-
 # TODO check if adb installed
 # TODO run adb devices, check if device
 # TODO make sure phone is attached
 # TODO make sure phone data is allowed
+# TODO print spinner or progress bar instead of outputting to terminal
+# TODO save to timestamped file in ./backup folder instead of same tabs.md file
+# TODO save in markdown link format instead of current format
+# TODO allow selection and closing of tabs
+# TODO use prompt ui
+# TODO put in PATH
 
 class TabSutra():
     CHROME_INSPECT_URL = 'chrome://inspect/#devices'
@@ -28,8 +33,6 @@ class TabSutra():
         self.driver = webdriver.Chrome()
 
     def parse_page_with_sleep(self):
-        # this works:
-        # print("self.browser = webdriver.Chrome()...")
         options = Options()
         # options.add_argument("--headless") # len(subrows): 0 No rows fetched. Quitting.
         options.add_argument("--no-sandbox")
@@ -40,8 +43,15 @@ class TabSutra():
         print(f'self.browser.get({self.CHROME_INSPECT_URL})...')
         self.driver.get(self.CHROME_INSPECT_URL)
         print(f'sleeping for {self.SLEEP_SECONDS} seconds...')
-        print(f'TODO should poll to see if browser ready, not sleep')
-        time.sleep(self.SLEEP_SECONDS) #
+        print(f'TODO should poll to see if browser ready, not sleep. Or at least prompt.')
+        # time.sleep(self.SLEEP_SECONDS) #
+        input("Make sure access permissions are granted on, then press a key to continue")
+        # Popup on phone: "Allow USB debugging?"
+
+        # in browser:
+        # Offline #13091JEC202978
+        # Pending authentication: please accept debugging session on the device.
+
         # print('for elem in self.browser.find_elements_by_class_name(\"subrow\"):...')
         # print(f'self.browser: {self.browser}')
         # subrows = self.driver.find_elements_by_class_name('subrow') # DeprecationWarning: find_elements_by_* commands are deprecated. Please use find_elements() instead
@@ -168,6 +178,12 @@ class TabSutra():
 
 
 def main():
+    print(f'This is {os.path.abspath(__file__)} on Python {sys.version}')
+    res = input("Proceed? y/n: ")
+    if res != 'y':
+        exit(0)
+    # print('OK, but quitting anyway')
+    # exit(0)
     tabsutra = TabSutra()
     tabsutra.go()
 
