@@ -38,7 +38,7 @@ class TabSutra():
 
         dev = usb.core.find(idVendor=0xfffe, idProduct=0x0001)
 
-        exit()
+        # exit()
 
         options = Options()
         # options.add_argument("--headless") # len(subrows): 0 No rows fetched. Quitting.
