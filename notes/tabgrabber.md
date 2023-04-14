@@ -4,6 +4,17 @@ notes/notes.md
 
 TabZilla?
 
+2023-04-02 16:25:04
+```
+    raise WebDriverException(
+selenium.common.exceptions.WebDriverException: Message: 'chromedriver' executable needs to be in PATH. Please see https://chromedriver.chromium.org/home
+
+```
+
+
+`pip freeze | diff requirements.txt -`
+
+
 [shell - Is there a Python equivalent to the 'which' command](https://stackoverflow.com/questions/9877462/is-there-a-python-equivalent-to-the-which-command)
 [11.9. shutil — High-level file operations — Python 3.3.7 documentation ](https://docs.python.org/3.3/library/shutil.html#shutil.which)
 

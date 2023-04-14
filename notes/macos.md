@@ -1,5 +1,126 @@
+
+
 ```
-21/02/8 16:25:15 kvogel@kvogel-macbook:~/Projects/dotfiles-private ±(master) 
+23/04/2 16:27:21 kvogel@kvogel-macbook-2021:~/.local
+❯ chromedriver
+zsh: command not found: chromedriver
+❯ brew install --cask chromedriver
+...
+==> Linking Binary 'chromedriver' to '/opt/homebrew/bin/chromedriver'
+🍺  chromedriver was successfully installed!
+❯ which chromedriver
+/opt/homebrew/bin/chromedriver
+```
+
+>“chromedriver” can’t be opened because Apple cannot check it for malicious software.
+>This software needs to be updated. Contact the developer for more information.
+>Homebrew Cask downloaded this file today at 16:33.
+
+In System Settings, Privacy & Security, Developer Tools, added `/opt/homebrew/Caskroom/chromedriver/111.0.5563.64/chromedriver`
+no dice!
+
+[MacOS Catalina(v 10.15.3): Error: “chromedriver” cannot be opened because the developer cannot be verified. Unable to launch the chrome browser](https://stackoverflow.com/questions/60362018/macos-catalinav-10-15-3-error-chromedriver-cannot-be-opened-because-the-de)
+
+```
+23/04/2 16:41:00 kvogel@kvogel-macbook-2021:/opt/homebrew/Caskroom/chromedriver/111.0.5563.64 ±(master)
+❯ xattr -d com.apple.quarantine chromedriver
+```
+OK.
+Now:
+```
+  File "/Users/kvogel/projects/general/projects/repos/tabsutra/venv/lib/python3.11/site-packages/usb/core.py", line 1309, in find
+    raise NoBackendError('No backend available')
+usb.core.NoBackendError: No backend available
+```
+```
+(venv) 23/04/2 16:43:13 kvogel@kvogel-macbook-2021:~/projects/general/projects/repos/tabsutra ±(master) ✗
+❯ pip install libusb
+```
+no dice
+
+[Python on M1 MBP trying to connect to USB devices - NoBackendError: No backend available](https://stackoverflow.com/questions/70729330/python-on-m1-mbp-trying-to-connect-to-usb-devices-nobackenderror-no-backend-a)
+
+>Add /opt/homebrew/lib to the environment variable DYLD_LIBRARY_PATH. For a permanent setup, add it to `~/.zshenv`:
+`export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"`
+no dice?
+```
+23/04/2 16:48:07 kvogel@kvogel-macbook-2021:/opt/homebrew ±(master)
+❯ brew install libusb
+...
+🍺  /opt/homebrew/Cellar/libusb/1.0.26: 22 files, 595KB
+...
+23/04/2 16:48:53 kvogel@kvogel-macbook-2021:/opt/homebrew ±(master)
+❯ ls lib/libusb-1.0.*
+lib/libusb-1.0.0.dylib  lib/libusb-1.0.a        lib/libusb-1.0.dylib
+```
+
+[Mac M1 support · Issue #355 · pyusb/pyusb ](https://github.com/pyusb/pyusb/issues/355)
+[macOS 11 Big Sur compatibility on Apple Silicon · Issue #7857 · Homebrew/brew ](https://github.com/Homebrew/brew/issues/7857)
+
+```
+23/04/2 16:56:02 kvogel@kvogel-macbook-2021:/opt/homebrew ±(master)
+❯ python -V
+Python 3.11.0
+23/04/2 16:52:55 kvogel@kvogel-macbook-2021:/opt/homebrew ±(master)
+❯ ptpython
+```
+```py
+>>> import ctypes.util
+>>> print(ctypes.util.find_library('usb'))
+None
+```
+
+```
+23/04/2 17:01:00 kvogel@kvogel-macbook-2021:~/projects/general/projects/repos/tabsutra ±(master) ✗
+❯ . ./venv/bin/activate
+(venv) 23/04/2 17:01:12 kvogel@kvogel-macbook-2021:~/projects/general/projects/repos/tabsutra ±(master) ✗
+❯ ptpython
+```
+```py
+>>> import usb.core
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'usb'
+```
+bc ptpython...
+```
+(venv) 23/04/2 17:04:25 kvogel@kvogel-macbook-2021:~/projects/general/projects/repos/tabsutra ±(master) ✗
+❯ python
+Python 3.11.0 (main, Nov 14 2022, 13:44:00) [Clang 14.0.0 (clang-1400.0.29.202)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import usb.core
+[no error]
+```
+
+[Python on M1 MBP trying to connect to USB devices - NoBackendError: No backend available](https://stackoverflow.com/questions/70729330/python-on-m1-mbp-trying-to-connect-to-usb-devices-nobackenderror-no-backend-a)
+```
+(venv) 23/04/2 17:00:05 kvogel@kvogel-macbook-2021:~/projects/general/projects/repos/tabsutra ±(master) ✗
+❯ echo $DYLD_LIBRARY_PATH
+/opt/homebrew/lib:
+```
+didn't work, but:
+```
+(venv) 23/04/2 17:13:22 kvogel@kvogel-macbook-2021:~/projects/general/projects/repos/tabsutra ±(master) ✗
+❯ ln -s /opt/homebrew/lib ~/lib
+```
+did:
+```
+(venv) 23/04/2 17:09:16 kvogel@kvogel-macbook-2021:~/projects/general/projects/repos/tabsutra ±(master) ✗
+❯ ./run.sh
+
+This is /Users/kvogel/projects/general/projects/repos/tabsutra/src/dev.py on Python 3.11.0 (main, Nov 14 2022, 13:44:00) [Clang 14.0.0 (clang-1400.0.29.202)]
+
+adb found at /Users/kvogel/.local/bin/platform-tools/adb
+filename: backups/tabs-2023-04-02T171346.md
+```
+
+
+
+
+---
+
+```
+21/02/8 16:25:15 kvogel@kvogel-macbook:~/Projects/dotfiles-private ±(master)
 ❯ python -V
 Python 3.7.3
 ❯ bpython
@@ -16,7 +137,7 @@ Traceback (most recent call last):
 TypeError: 'module' object is not iterable
 >>> dir(os)
 ['CLD_CONTINUED', 'CLD_DUMPED', 'CLD_EXITED', 'CLD_TRAPPED', 'DirEntry', 'EX_CANTCREAT', 'EX_CONFIG', 'EX_DATAERR', 'EX_IOERR', 'EX_NOHOST', 'EX_
-NOINPUT', 'EX_NOPERM', 'EX_NOUSER', 'EX_OK', 'EX_OSERR', 'EX_OSFILE', 'EX_PROTOCOL', 'EX_SOFTWARE', 'EX_TEMPFAIL', 'EX_UNAVAILABLE', 'EX_USAGE', 
+NOINPUT', 'EX_NOPERM', 'EX_NOUSER', 'EX_OK', 'EX_OSERR', 'EX_OSFILE', 'EX_PROTOCOL', 'EX_SOFTWARE', 'EX_TEMPFAIL', 'EX_UNAVAILABLE', 'EX_USAGE',
 'F_LOCK', 'F_OK', 'F_TEST', 'F_TLOCK', 'F_ULOCK', 'MutableMapping', 'NGROUPS_MAX', 'O_ACCMODE', 'O_APPEND', 'O_ASYNC', 'O_CLOEXEC', 'O_CREAT', 'O
 _DIRECTORY', 'O_DSYNC', 'O_EXCL', 'O_EXLOCK', 'O_NDELAY', 'O_NOCTTY', 'O_NOFOLLOW', 'O_NONBLOCK', 'O_RDONLY', 'O_RDWR', 'O_SHLOCK', 'O_SYNC', 'O_
 TRUNC', 'O_WRONLY', 'PRIO_PGRP', 'PRIO_PROCESS', 'PRIO_USER', 'P_ALL', 'P_NOWAIT', 'P_NOWAITO', 'P_PGID', 'P_PID', 'P_WAIT', 'PathLike', 'RTLD_GL
@@ -34,7 +155,7 @@ tgroups', 'getloadavg', 'getlogin', 'getpgid', 'getpgrp', 'getpid', 'getppid', '
 ir', 'mkfifo', 'mknod', 'name', 'nice', 'open', 'openpty', 'pardir', 'path', 'pathconf', 'pathconf_names', 'pathsep', 'pipe', 'popen', 'pread', '
 putenv', 'pwrite', 'read', 'readlink', 'readv', 'register_at_fork', 'remove', 'removedirs', 'rename', 'renames', 'replace', 'rmdir', 'scandir', '
 sched_get_priority_max', 'sched_get_priority_min', 'sched_yield', 'sendfile', 'sep', 'set_blocking', 'set_inheritable', 'setegid', 'seteuid', 'se
-tgid', 'setgroups', 'setpgid', 'setpgrp', 'setpriority', 'setregid', 'setreuid', 'setsid', 'setuid', 'spawnl', 'spawnle', 'spawnlp', 'spawnlpe', 
+tgid', 'setgroups', 'setpgid', 'setpgrp', 'setpriority', 'setregid', 'setreuid', 'setsid', 'setuid', 'spawnl', 'spawnle', 'spawnlp', 'spawnlpe',
 'spawnv', 'spawnve', 'spawnvp', 'spawnvpe', 'st', 'stat', 'stat_result', 'statvfs', 'statvfs_result', 'strerror', 'supports_bytes_environ', 'supp
 orts_dir_fd', 'supports_effective_ids', 'supports_fd', 'supports_follow_symlinks', 'symlink', 'sync', 'sys', 'sysconf', 'sysconf_names', 'system'
 , 'tcgetpgrp', 'tcsetpgrp', 'terminal_size', 'times', 'times_result', 'truncate', 'ttyname', 'umask', 'uname', 'uname_result', 'unlink', 'unseten
@@ -46,11 +167,11 @@ v', 'urandom', 'utime', 'wait', 'wait3', 'wait4', 'waitpid', 'walk', 'write', 'w
 >>> os.__doc__
 ```
 ```
-"OS routines for NT or Posix depending on what system we're on.\n\nThis exports:\n  - all functions from posix or nt, e.g. unlink, stat, etc.\n  
+"OS routines for NT or Posix depending on what system we're on.\n\nThis exports:\n  - all functions from posix or nt, e.g. unlink, stat, etc.\n
 - os.path is either posixpath or ntpath\n  - os.name is either 'posix' or 'nt'\n  - os.curdir is a string representing the current directory (alw
 ays '.')\n  - os.pardir is a string representing the parent directory (always '..')\n  - os.sep is the (or a most common) pathname separator ('/'
  or '\\\\')\n  - os.extsep is the extension separator (always '.')\n  - os.altsep is the alternate pathname separator (None or '/')\n  - os.paths
-ep is the component separator used in $PATH etc\n  - os.linesep is the line separator in text files ('\\r' or '\\n' or '\\r\\n')\n  - os.defpath 
+ep is the component separator used in $PATH etc\n  - os.linesep is the line separator in text files ('\\r' or '\\n' or '\\r\\n')\n  - os.defpath
 is the default search path for executables\n  - os.devnull is the file path of the null device ('/dev/null', etc.)\n\nPrograms that import and us
 e 'os' stand a better chance of being\nportable between different platforms.  Of course, they must then\nonly use functions that are defined by a
 ll platforms (e.g., unlink\nand opendir), and leave all pathname manipulation to os.path\n(e.g., split and join).\n"
@@ -75,15 +196,15 @@ posix.uname_result(sysname='Darwin', nodename='kvogel-macbook.local', release='1
 
 2021-02-13 11:39:09
 ```
-21/02/13 11:38:47 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
-❯ ./run.sh 
+21/02/13 11:38:47 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ ./run.sh
 Traceback (most recent call last):
   File "src/dev.py", line 3, in <module>
     from selenium import webdriver
 ModuleNotFoundError: No module named 'selenium'
 ❯ . ./venv/bin/activate
-(venv) 21/02/13 11:39:53 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
-❯ ./run.sh             
+(venv) 21/02/13 11:39:53 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ ./run.sh
 self.browser = webdriver.Chrome()...
 ```
 OK... but:
@@ -107,7 +228,7 @@ Jinja2==2.7.3
 ```
 
 ```
-(venv) 21/02/13 11:40:00 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+(venv) 21/02/13 11:40:00 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
 ❯ pip show selenium
 Name: selenium
 Version: 3.141.0
@@ -118,9 +239,9 @@ Author-email: UNKNOWN
 License: Apache 2.0
 Location: /Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages
 Requires: urllib3
-Required-by: 
+Required-by:
 
-❯ pip -V           
+❯ pip -V
 pip 19.0.3 from /Users/kvogel/Projects/TabSutra/venv/lib/python3.7/site-packages/pip (python 3.7)
 
 ❯ pip install selenium
@@ -134,7 +255,7 @@ Requirement already up-to-date: selenium in ./venv/lib/python3.7/site-packages (
 Requirement already satisfied, skipping upgrade: urllib3 in ./venv/lib/python3.7/site-packages (from selenium) (1.25.9)
 ```
 
-selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 
+selenium.common.exceptions.SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version
 
 ```
 ❯ which chromedriver
@@ -215,7 +336,7 @@ but recursion is disabled -- not retrieving.
 ❯ curl -o /dev/null --silent --head --write-out '%{http_code}\n' https://chromedriver.storage.googleapis.com/index.html\?path\=88.0.4324.96xxx/
 200
 ```
-?? 
+??
 
 [https://chromedriver.storage.googleapis.com/index.html/?path%5C=88.0.4324.96xxx/ ](https://chromedriver.storage.googleapis.com/index.html/?path%5C=88.0.4324.96xxx/)
 ```xml
@@ -227,7 +348,7 @@ but recursion is disabled -- not retrieving.
 ```
 It is a directory listing. The real path is `https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64.zip`
 ```
-(venv) 21/02/13 12:19:52 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+(venv) 21/02/13 12:19:52 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
 ❯ wget https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64.zip
 --2021-02-13 13:10:28--  https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64.zip
 Resolving chromedriver.storage.googleapis.com (chromedriver.storage.googleapis.com)... 2a00:1450:4009:819::2010, 142.250.178.16
@@ -237,10 +358,10 @@ Length: 8137203 (7.8M) [application/zip]
 Saving to: ‘chromedriver_mac64.zip’
 chromedriver_mac64.zip               100%[===================================================================>]   7.76M  8.48MB/s    in 0.2021-02-13 13:10:29 (8.48 MB/s) - ‘chromedriver_mac64.zip’ saved [8137203/8137203]
 
-❯ unzip chromedriver_mac64.zip 
-  inflating: chromedriver    
+❯ unzip chromedriver_mac64.zip
+  inflating: chromedriver
 
-(venv) 21/02/13 13:11:43 kvogel@kvogel-macbook:/usr/local/bin 
+(venv) 21/02/13 13:11:43 kvogel@kvogel-macbook:/usr/local/bin
 ❯ chromedriver -v
 ChromeDriver 86.0.4240.22 (398b0743353ff36fb1b82468f63a3a93b4e2e89e-refs/branch-heads/4240@{#378})
 ❯ sudo mv chromedriver chromedriver-86
@@ -287,11 +408,11 @@ selenium.common.exceptions.StaleElementReferenceException: Message: stale elemen
 ```
 
 ```
-(venv) 21/02/13 13:22:15 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
+(venv) 21/02/13 13:22:15 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
 ❯ ./run.sh > s7-tabs-210213T1322.txt
 ...
-(venv) 21/02/13 13:24:59 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗ 
-❯ ll s7-tabs-210213T1322.txt 
+(venv) 21/02/13 13:24:59 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) ✗
+❯ ll s7-tabs-210213T1322.txt
 -rw-r--r--  1 kvogel  staff   602K 13 Feb 13:24 s7-tabs-210213T1322.txt
 ```
 
@@ -396,12 +517,12 @@ redo in node/js?
 [bash - Script to get the HTTP status code of a list of urls?](https://stackoverflow.com/questions/6136022/script-to-get-the-http-status-code-of-a-list-of-urls)
 
 ```
-(venv) 21/02/13 15:24:07 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
-❯ git config --global pull.ff true 
+(venv) 21/02/13 15:24:07 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master)
+❯ git config --global pull.ff true
 ```
 
 ```
-(venv) 21/02/13 16:33:15 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
+(venv) 21/02/13 16:33:15 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master)
 ❯ /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --headless google.com
 [0213/163325.153874:ERROR:xattr.cc(63)] setxattr org.chromium.crashpad.database.initialized on file /var/folders/jt/0c4t1hnn613c8_7q19pgmrhw0000gn/T/: Operation not permitted (1)
 [0213/163325.157029:ERROR:file_io.cc(90)] ReadExactly: expected 8, observed 0
@@ -410,15 +531,15 @@ redo in node/js?
 [0213/163325.572298:WARNING:ipc_message_attachment_set.cc(49)] MessageAttachmentSet destroyed with unconsumed attachments: 0/1
 ```
 
-Chrome "--headless" ERROR:xattr  setxattr org.chromium.crashpad.database.initialized on file Operation not permitted 
+Chrome "--headless" ERROR:xattr  setxattr org.chromium.crashpad.database.initialized on file Operation not permitted
 [Chrome "--headless" ERROR:xattr setxattr org.chromium.crashpad.database.initialized on file Operation not permitted](https://www.google.com/search?q=Chrome+%22--headless%22+ERROR%3Axattr+setxattr+org.chromium.crashpad.database.initialized+on+file+Operation+not+permitted&ie=UTF-8)
 [Chrome --headless crashes : MacOS ](https://www.reddit.com/r/MacOS/comments/8zxoxs/chrome_headless_crashes/)
 [permissions - Chrome crashpad crashes on xattr - Super User ](https://superuser.com/questions/1292863/chrome-crashpad-crashes-on-xattr)
 
 add ` --crash-dumps-dir=/tmp`
 ```
-(venv) 21/02/13 16:33:25 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master) 
-❯ /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --headless --crash-dumps-dir=/tmp google.com 
+(venv) 21/02/13 16:33:25 kvogel@kvogel-macbook:~/Projects/TabSutra ±(master)
+❯ /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --headless --crash-dumps-dir=/tmp google.com
 [0213/163519.681147:ERROR:command_buffer_proxy_impl.cc(122)] ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer.
 ```
 
