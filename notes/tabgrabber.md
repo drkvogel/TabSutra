@@ -11,6 +11,14 @@ selenium.common.exceptions.WebDriverException: Message: 'chromedriver' executabl
 
 ```
 
+2023-06-16 19:27:24
+```
+23/06/16 19:23:55 kvogel@kvogel-macbook-2021:~
+❯ brew reinstall --cask chromedriver
+==> Downloading https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_mac_arm64.zip
+```
+
+
 
 `pip freeze | diff requirements.txt -`
 
